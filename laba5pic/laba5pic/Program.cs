@@ -18,7 +18,7 @@ class ImageCompressor
         Console.OutputEncoding = Encoding.Unicode;
 
         // Зчитування початкового зображення в масив
-        string inputImagePath = @"C:\Users\yaros\Downloads\laba5.bmp"; // Змініть на свій шлях
+        string inputImagePath = @"C:\Users\yaros\Downloads\laba5.bmp";
         byte[,] imageArray = LoadImageToArray(inputImagePath);
 
         // Запис початкового зображення в файл
