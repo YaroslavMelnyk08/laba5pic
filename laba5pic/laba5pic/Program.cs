@@ -17,12 +17,16 @@ class ImageCompressor
         Console.InputEncoding = Encoding.Unicode;
         Console.OutputEncoding = Encoding.Unicode;
 
+        string folderPath = @"C:\Users\yaros\Downloads";
+
         // Зчитування початкового зображення в масив
-        string inputImagePath = @"C:\Users\yaros\Downloads\laba5.bmp";
+        string fileName = "laba5.bmp";
+        string inputImagePath = Path.Combine(folderPath, fileName);
         byte[,] imageArray = LoadImageToArray(inputImagePath);
 
         // Запис початкового зображення в файл
-        string uncompressedFilePath = @"C:\Users\yaros\Downloads\uncompressed_image.bin";
+        string fileName2 = "uncompressed_image.bin";
+        string uncompressedFilePath = Path.Combine(folderPath, fileName2);
         SaveArrayToFile(imageArray, uncompressedFilePath);
 
         // Розклад на блоки 4x4
@@ -31,12 +35,14 @@ class ImageCompressor
         double[,] quantizedDCT = QuantizeDCT(dctCoefficients, quantizationMatrix);
 
         // Запис DCT компонентів в файл
-        string dctFilePath = @"C:\Users\yaros\Downloads\dct_components.bin";
+        string fileName3 = "dct_components.bin";
+        string dctFilePath = Path.Combine(folderPath, fileName3);
         SaveDCTToFile(quantizedDCT, dctFilePath);
 
         // Відновлення зображення
         byte[,] restoredImage = PerformInverseDCT(quantizedDCT);
-        string restoredImagePath = @"C:\Users\yaros\Downloads\restored_image.bmp";
+        string fileName4 = "restored_image.bmp";
+        string restoredImagePath = Path.Combine(folderPath, fileName4);
         SaveArrayToImage(restoredImage, restoredImagePath);
 
         // Відкриття зображення для перегляду
