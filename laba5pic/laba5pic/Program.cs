@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -10,6 +10,7 @@ class ImageCompressor
     const int width = 320;
     const int height = 200;
     const int blockSize = 4;
+    const int brightnessIncrease = 50; // Значення для збільшення яскравості
 
     static void Main()
     {
@@ -61,7 +62,9 @@ class ImageCompressor
             for (int x = 0; x < width; x++)
             {
                 Color pixel = bmp.GetPixel(x, y);
-                data[y, x] = (byte)((pixel.R + pixel.G + pixel.B) / 3); // Сірий рівень
+                int grayLevel = (pixel.R + pixel.G + pixel.B) / 3; // Сірий рівень
+                grayLevel = Math.Min(255, grayLevel + brightnessIncrease); // Збільшення яскравості
+                data[y, x] = (byte)grayLevel;
             }
         }
 
@@ -214,15 +217,15 @@ class ImageCompressor
         }
     }
 
-    static void SaveArrayToImage(byte[,] image, string filename)
+    static void SaveArrayToImage(byte[,] data, string filename)
     {
         Bitmap bmp = new Bitmap(width, height);
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                byte pixel = image[y, x];
-                bmp.SetPixel(x, y, Color.FromArgb(pixel, pixel, pixel)); // Грейскейл
+                int grayLevel = data[y, x];
+                bmp.SetPixel(x, y, Color.FromArgb(grayLevel, grayLevel, grayLevel));
             }
         }
         bmp.Save(filename, ImageFormat.Bmp);
@@ -233,14 +236,14 @@ class ImageCompressor
         Process.Start(new ProcessStartInfo(filename) { UseShellExecute = true });
     }
 
-    static double CalculateMSE(byte[,] original, byte[,] comparison)
+    static double CalculateMSE(byte[,] original, byte[,] restored)
     {
         double mse = 0.0;
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                mse += Math.Pow(original[y, x] - comparison[y, x], 2);
+                mse += Math.Pow(original[y, x] - restored[y, x], 2);
             }
         }
         return mse / (width * height);
@@ -248,14 +251,10 @@ class ImageCompressor
 
     static byte[,] ConvertDctToByteArray(double[,] dct)
     {
-        byte[,] dctImage = new byte[height, width];
+        byte[,] byteArray = new byte[height, width];
         for (int y = 0; y < height; y++)
-        {
             for (int x = 0; x < width; x++)
-            {
-                dctImage[y, x] = (byte)Math.Clamp(Math.Round(dct[y, x]), 0, 255);
-            }
-        }
-        return dctImage;
+                byteArray[y, x] = (byte)Math.Clamp(Math.Round(dct[y, x]), 0, 255);
+        return byteArray;
     }
 }
