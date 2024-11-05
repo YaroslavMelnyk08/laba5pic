@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZpIAGls0RLL6UTbOlG51ozr/PfDwADPkWlZv/+qlXMz2FqpCAeiDFTCPV+pLGut2GQR9BAEnPbc03osBk7Yl4g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\yaros\\source\\repos\\laba5pic\\laba5pic\\laba5pic.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\yaros\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
+    "C:\\Users\\yaros\\.nuget\\packages\\system.drawing.common\\8.0.10\\system.drawing.common.8.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
